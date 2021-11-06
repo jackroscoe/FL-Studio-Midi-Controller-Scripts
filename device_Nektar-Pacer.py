@@ -35,16 +35,24 @@ class TSimple():
 					ui.showWindow(midi.widMixer)
 					for n in range(1, 50): #Sets the Mixer Channel range to be changed. (first channel, last channel). 0 is the Master.
 						mixer.setTrackVolume(n, 0.25) #Sets each channel to 25%
-				elif event.data1 == Transport_PlayNote:
-					if not transport.isPlaying():
+				if event.data2 > 0:
+					if event.data1 == Transport_PlayNote:
 						transport.start()
 						event.handled = True
-				elif event.data1 == Transport_StopNote:
-					if transport.isPlaying():
-						transport.stop()
+					elif event.data1 == Transport_StopNote:
+						if transport.isPlaying():
+							transport.stop()
+							event.handled = True
+					elif event.data1 == Transport_RecordNote:
+						transport.record()
 						event.handled = True
-				elif event.data1 == Transport_RecordNote:
-					transport.record()
+				elif event.data2 == 0:
+					if event.data1 == Transport_PlayNote:
+						event.handled = True
+					elif event.data1 == Transport_StopNote:
+						event.handled = True
+					elif event.data1 == Transport_RecordNote:
+						event.handled = True
 			else:
 				event.handled = False
 		else:
