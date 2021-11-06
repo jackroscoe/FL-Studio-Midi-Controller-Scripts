@@ -18,6 +18,13 @@ Transport_PlayNote = 94 # Play button
 Transport_StopNote = 93 # Stop button
 Transport_LoopRecordingNote = 86 # Enable/Disable Loop Recording
 Transport_RecordNote = 95 # Record
+# DOWN KEY = 96
+# UP KEY = 97
+
+UI_Next = 92 # Next (e.g. next mixer track)
+UI_Previous = 91 # Previous (e.g. previous mixer track)
+
+Mixer_Mute = 86 # Mute selected mixer track
 
 class TSimple():
 
@@ -46,6 +53,15 @@ class TSimple():
 					elif event.data1 == Transport_RecordNote:
 						transport.record()
 						event.handled = True
+					elif event.data1 == UI_Next:
+						if ui.getFocused(0):
+							ui.next()
+					elif event.data1 == UI_Previous:
+						if ui.getFocused(0):
+							ui.previous()
+					elif event.data1 == Mixer_Mute:
+						if ui.getFocused(0):
+							mixer.muteTrack(mixer.trackNumber())
 				elif event.data2 == 0:
 					if event.data1 == Transport_PlayNote:
 						event.handled = True
